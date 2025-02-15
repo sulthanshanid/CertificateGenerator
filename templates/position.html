@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Set Text Position</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: #f4f4f9;
+        min-height: 100vh;
+        margin: 0;
+      }
+
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      .template-container {
+        position: relative;
+        border: 2px solid #ccc;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .template {
+        position: relative;
+        display: inline-block;
+      }
+
+      .draggable {
+        position: absolute;
+        color: black;
+        background: transparent; /* Transparent background for text */
+        padding: 5px;
+        border: 1px dashed #333;
+        border-radius: 4px;
+        cursor: move;
+        font-size: 20px;
+      }
+
+      .controls {
+        margin-top: 20px;
+        text-align: center;
+      }
+
+      .controls input[type="range"],
+      .controls input[type="number"],
+      .controls input[type="color"] {
+        width: 200px;
+        margin: 10px;
+      }
+
+      .controls select,
+      .controls button {
+        padding: 5px 10px;
+        margin: 5px;
+        border-radius: 4px;
+      }
+
+      .position-info {
+        margin-top: 10px;
+        padding: 10px;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        font-size: 14px;
+      }
+    </style>
+
+    <!-- Font Link Placeholder -->
+    <style id="customFontStyle"></style>
+  </head>
+  <body>
+    <h1>Set Position for {{ template_name }}</h1>
+
+    <!-- Year selection -->
+    <label for="year">Select Year:</label>
+    <select id="year" required>
+      <option value="1">1st Year</option>
+      <option value="2">2nd Year</option>
+      <option value="3">3rd Year</option>
+      <option value="4">4th Year</option></select
+    ><br />
+
+    <div class="controls">
+      <label>
+        Font Size:
+        <input type="range" id="fontSize" min="10" max="100" value="20" />
+        <input
+          type="number"
+          id="manualFontSize"
+          min="10"
+          max="100"
+          value="20"
+        />
+      </label>
+
+      <label>
+        Font Family:
+        <select id="fontFamily">
+          <option value="Arial" style="font-family: Arial">Arial</option>
+          <option
+            value="Times New Roman"
+            style="font-family: 'Times New Roman'"
+          >
+            Times New Roman
+          </option>
+          <option value="Courier New" style="font-family: 'Courier New'">
+            Courier New
+          </option>
+          <option value="Georgia" style="font-family: Georgia">Georgia</option>
+        </select>
+      </label>
+
+      <label>
+        Text: <input type="text" id="textInput" value="Sample Text" />
+      </label>
+
+      <label>
+        Font Color:
+        <input type="color" id="fontColor" value="#000000" />
+      </label>
+
+      <button onclick="savePosition()">Save Position</button>
+    </div>
+
+    <div class="template-container">
+      <div class="template">
+        <img src="/static/uploads/{{ template_name }}.png" alt="Template" />
+        <div class="draggable" id="draggable" contenteditable="true">
+          Sample Text
+        </div>
+      </div>
+    </div>
+
+    <div class="position-info">
+      <strong>Current Position:</strong>
+      X: <span id="posX">0</span>, Y: <span id="posY">0</span> <br />
+      Font Size: <span id="currentFontSize">20</span>px
+    </div>
+
+    <script>
+      const draggable = document.getElementById("draggable");
+      const posX = document.getElementById("posX");
+      const posY = document.getElementById("posY");
+      const fontSizeInput = document.getElementById("fontSize");
+      const manualFontSizeInput = document.getElementById("manualFontSize");
+      const currentFontSize = document.getElementById("currentFontSize");
+      const fontFamilySelect = document.getElementById("fontFamily");
+      const customFontStyle = document.getElementById("customFontStyle");
+      const textInput = document.getElementById("textInput");
+      const fontColorPicker = document.getElementById("fontColor");
+      const yearSelect = document.getElementById("year");
+
+      // Get the font file name passed from the previous page
+      const fontFile = "{{ font_file }}"; // Corrected font file name
+
+      // If a font file is provided, load it dynamically
+      if (fontFile) {
+        // Dynamically create a @font-face rule
+        const fontFaceRule = `
+            @font-face {
+              font-family: 'VerdanaB';  /* Custom name for the font */
+              src: url('/static/fonts/${fontFile}') format('truetype');
+            }
+          `;
+
+        customFontStyle.innerHTML = fontFaceRule;
+
+        // Set the font to the text box using the custom font family name
+        draggable.style.fontFamily = "VerdanaB";
+      }
+
+      // Initial Position and Font Size
+      draggable.style.left = "50px";
+      draggable.style.top = "50px";
+      draggable.style.fontSize = "20px";
+      draggable.style.color = "#000000"; // Initial font color
+      posX.textContent = 50;
+      posY.textContent = 50;
+
+      // Make Text Box Draggable
+      draggable.onmousedown = function (event) {
+        event.preventDefault();
+        document.onmousemove = function (event) {
+          let x = event.pageX - draggable.offsetWidth / 2;
+          let y = event.pageY - draggable.offsetHeight / 2;
+          draggable.style.left = x + "px";
+          draggable.style.top = y + "px";
+          posX.textContent = x;
+          posY.textContent = y;
+        };
+
+        document.onmouseup = function () {
+          document.onmousemove = null;
+          document.onmouseup = null;
+        };
+      };
+
+      // Change Font Size Dynamically using range slider
+      fontSizeInput.addEventListener("input", function () {
+        draggable.style.fontSize = fontSizeInput.value + "px";
+        manualFontSizeInput.value = fontSizeInput.value;
+        currentFontSize.textContent = fontSizeInput.value;
+      });
+
+      // Change Font Size Dynamically using manual input
+      manualFontSizeInput.addEventListener("input", function () {
+        const newSize = manualFontSizeInput.value;
+        draggable.style.fontSize = newSize + "px";
+        fontSizeInput.value = newSize;
+        currentFontSize.textContent = newSize;
+      });
+
+      // Change Font Family Dynamically
+      fontFamilySelect.addEventListener("change", function () {
+        const selectedFont = fontFamilySelect.value;
+        draggable.style.fontFamily = selectedFont;
+      });
+
+      // Change the text content dynamically
+      textInput.addEventListener("input", function () {
+        draggable.textContent = textInput.value;
+      });
+
+      // Change the font color dynamically
+      fontColorPicker.addEventListener("input", function () {
+        draggable.style.color = fontColorPicker.value;
+      });
+
+      // Save Position, Font Size, Font Family, and Font Color
+      function savePosition() {
+        const x = parseInt(draggable.style.left);
+        const y = parseInt(draggable.style.top);
+        const fontSize = fontSizeInput.value;
+        const fontFamily = fontFamilySelect.value;
+        const text = textInput.value;
+        const fontColor = fontColorPicker.value;
+        const year = yearSelect.value; // Get selected year
+        const year_category = "{{year_category}}";
+
+        fetch("/save-position", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `template_name={{ template_name }}&x=${x}&y=${y}&font_size=${fontSize}&font_family=${fontFamily}&text=${encodeURIComponent(
+            text
+          )}&font_color=${fontColor}&year=${year_category}`, // Include year in the POST request
+        }).then(() => alert("Position Saved!"));
+      }
+    </script>
+  </body>
+</html>

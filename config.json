@@ -1,0 +1,30 @@
+{
+    "1_year": {
+        "Teranis 22 volunteer": {
+            "font": "verdanab.ttf",
+            "font_size": 68,
+            "position": [
+                1431,
+                1250
+            ],
+            "font_path": "static/fonts/verdanab.ttf",
+            "font_color": "#ffffff",
+            "points": "10"
+        }
+    },
+    "2_year": {
+        "Webinar Stock ": {
+            "font": "Arial.ttf",
+            "font_size": 34,
+            "position": [
+                2944,
+                1395
+            ],
+            "font_path": "static/fonts/Arial.ttf",
+            "font_color": "#000000",
+            "points": "15"
+        }
+    },
+    "3_year": {},
+    "4_year": {}
+}

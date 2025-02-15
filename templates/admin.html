@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-50 font-sans text-gray-800">
+    <div class="container mx-auto p-6 space-y-8">
+      <!-- Page Title -->
+      <header class="text-center">
+        <h1 class="text-4xl font-bold text-indigo-600 mb-4">Admin Panel</h1>
+        <p class="text-xl text-gray-600">Manage Templates and Categories</p>
+      </header>
+
+      <!-- View Templates Section -->
+      <section class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold text-indigo-700 mb-4">
+          Templates Categorized by Year
+        </h2>
+
+        {% for year, year_data in yconfig.items() %}
+        <div class="mb-8">
+          <h3 class="text-xl font-semibold text-indigo-500 mb-4">
+            {{ year }} Certificates
+          </h3>
+          <table
+            class="min-w-full table-auto border-separate border-spacing-0.5"
+          >
+            <thead>
+              <tr class="bg-indigo-100 text-gray-700">
+                <th class="py-2 px-4 border border-gray-300 rounded-l-md">
+                  Template Name
+                </th>
+                <th class="py-2 px-4 border border-gray-300">Font</th>
+                <th class="py-2 px-4 border border-gray-300">Font Size</th>
+                <th class="py-2 px-4 border border-gray-300">Font color</th>
+                <th class="py-2 px-4 border border-gray-300">Points</th>
+                <th class="py-2 px-4 border border-gray-300 rounded-r-md">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for template, config in year_data.items() %}
+              <tr class="border-b hover:bg-gray-50">
+                <td class="py-2 px-4">{{ template }}</td>
+                <td class="py-2 px-4">{{ config.font }}</td>
+                <td class="py-2 px-4">{{ config.font_size }}</td>
+                <td class="py-2 px-4">{{ config.font_color }}</td>
+                <td class="py-2 px-4">{{ config.points }}</td>
+                <td class="py-2 px-4 text-center">
+                  <a
+                    href="/set-position/{{ year }}/{{ template }}"
+                    class="text-blue-500 hover:text-blue-700"
+                    >Update</a
+                  >
+                  <a href="#" class="text-red-500 ml-4 hover:text-red-700"
+                    >Delete</a
+                  >
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% endfor %}
+      </section>
+
+      <!-- Add New Template Section -->
+      <section class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold text-indigo-700 mb-4">
+          Add New Template
+        </h2>
+        <form
+          action="/upload"
+          method="POST"
+          enctype="multipart/form-data"
+          class="space-y-6"
+        >
+          <div>
+            <label for="template_name" class="block font-medium text-gray-700"
+              >Template Name</label
+            >
+            <input
+              type="text"
+              name="template_name"
+              id="template_name"
+              class="w-full p-3 border border-gray-300 rounded-md"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="category" class="block font-medium text-gray-700"
+              >Category (Year)</label
+            >
+            <select
+              name="category"
+              id="category"
+              class="w-full p-3 border border-gray-300 rounded-md"
+              required
+            >
+              <option value="1_year">1 Year</option>
+              <option value="2_year">2 Year</option>
+              <option value="3_year">3 Year</option>
+              <option value="4_year">4 Year</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="template" class="block font-medium text-gray-700"
+              >Template Image</label
+            >
+            <input
+              type="file"
+              name="template"
+              id="template"
+              class="w-full p-3 border border-gray-300 rounded-md"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="font" class="block font-medium text-gray-700"
+              >Font File</label
+            >
+            <input
+              type="file"
+              name="font"
+              id="font"
+              class="w-full p-3 border border-gray-300 rounded-md"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="font_size" class="block font-medium text-gray-700"
+              >Font Size</label
+            >
+            <input
+              type="number"
+              name="font_size"
+              id="font_size"
+              class="w-full p-3 border border-gray-300 rounded-md"
+              required
+            />
+          </div>
+          <div>
+            <label for="points" class="block font-medium text-gray-700"
+              >Points</label
+            >
+            <input
+              type="number"
+              name="points"
+              id="points"
+              class="w-full p-3 border border-gray-300 rounded-md"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+          >
+            Add Template
+          </button>
+        </form>
+      </section>
+    </div>
+  </body>
+</html>
