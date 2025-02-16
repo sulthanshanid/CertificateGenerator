@@ -42,7 +42,7 @@ def index():
     config = load_config()
     return render_template('index.html', templates=config)
 
-@app.route('/admin')
+@app.route('/adminnotdefined')
 def admin_panel():
     config = load_config()
     log_data = load_log_data()
@@ -180,7 +180,7 @@ def upload_template():
     year = request.form['category'] 
     points = request.form['points']
     capitalization = request.form['capitalization']
-    align = request.form['align']   # New field for year/category
+    align = int(request.form['align'])   # New field for year/category
 
     # Save template image
     template_path = os.path.join(app.config['UPLOAD_FOLDER'], f"{template_name}.png")
