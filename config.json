@@ -1,30 +1,160 @@
 {
-    "1_year": {
-        "Teranis 22 volunteer": {
-            "font": "verdanab.ttf",
-            "font_size": 68,
-            "position": [
-                1431,
-                1250
-            ],
-            "font_path": "static/fonts/verdanab.ttf",
-            "font_color": "#ffffff",
-            "points": "10"
-        }
+  "1_year": {
+    "Teranis 22 volunteer": {
+      "font": "verdanab.ttf",
+      "font_size": 68,
+      "position": [1431, 1250],
+      "font_path": "static/fonts/verdanab.ttf",
+      "font_color": "#ffffff",
+      "points": "5",
+      "capitalization": "3",
+      "align": 1
     },
-    "2_year": {
-        "Webinar Stock ": {
-            "font": "Arial.ttf",
-            "font_size": 34,
-            "position": [
-                2944,
-                1395
-            ],
-            "font_path": "static/fonts/Arial.ttf",
-            "font_color": "#000000",
-            "points": "15"
-        }
+    "HOLA FUTURE WEBINAR ": {
+      "font": "verdanab.ttf",
+      "font_size": 68,
+      "position": [1299, 1247],
+      "font_path": "static/fonts/verdanab.ttf",
+      "font_color": "#ffffff",
+      "points": "6",
+      "capitalization": "3",
+      "align": 1
     },
-    "3_year": {},
-    "4_year": {}
+    "Workshop-PY-LEARN": {
+      "font": "verdanab.ttf",
+      "font_size": 82,
+      "position": [1681, 1206],
+      "font_path": "static/fonts/verdanab.ttf",
+      "font_color": "#ffffff",
+      "points": "6",
+      "capitalization": "3",
+      "align": 1
+    },
+    "Workshop-HADOOP-A-LOOP": {
+      "font": "verdanab.ttf",
+      "font_size": 82,
+      "position": [1638, 1214],
+      "font_path": "static/fonts/verdanab.ttf",
+      "font_color": "#ffffff",
+      "points": "6",
+      "capitalization": "3",
+      "align": 1
+    },
+    "IOMATIC": {
+      "font": "verdanab.ttf",
+      "font_size": 68,
+      "position": [1681, 1228],
+      "font_path": "static/fonts/verdanab.ttf",
+      "font_color": "#ffffff",
+      "points": "6",
+      "capitalization": "3",
+      "align": 1
+    }
+  },
+  "2_year": {
+    "STOCK": {
+      "font": "Arial.ttf",
+      "font_size": 43,
+      "position": [1080, 629],
+      "font_path": "static/fonts/Arial.ttf",
+      "font_color": "#000000",
+      "points": "15",
+      "capitalization": "2",
+      "align": 1
+    },
+    "Quizzard": {
+      "font": "micross.ttf",
+      "font_size": 40,
+      "position": [889, 899],
+      "font_path": "static/fonts/micross.ttf",
+      "font_color": "#000000",
+      "points": "40",
+      "capitalization": "2",
+      "align": 1
+    },
+    "Self Driving": {
+      "font": "WorkSans-Thin.ttf",
+      "font_size": 15,
+      "position": [0, 0],
+      "font_path": "static/fonts/WorkSans-Thin.ttf",
+      "font_color": "#000000",
+      "points": "15",
+      "capitalization": "3",
+      "align": 1
+    },
+    "Interview Prepartion": {
+      "font": "Montserrat-Bold.ttf",
+      "font_size": 100,
+      "position": [3277, 2234],
+      "font_path": "static/fonts/Montserrat-Bold.ttf",
+      "font_color": "#000000",
+      "points": "6",
+      "capitalization": "3",
+      "align": 1
+    }
+  },
+  "3_year": {
+    "VOLUNTEER TERANIS 24": {
+      "font": "Arial Bold.ttf",
+      "font_size": 37,
+      "position": [1093, 760],
+      "font_path": "static/fonts/Arial Bold.ttf",
+      "font_color": "#000000",
+      "points": "5",
+      "capitalization": "3",
+      "align": 2
+    },
+    "WEBINAR AUTOMATION TERANIS24": {
+      "font": "calibrib.ttf",
+      "font_size": 57,
+      "position": [1602, 1063],
+      "font_path": "static/fonts/calibrib.ttf",
+      "font_color": "#000000",
+      "points": "6",
+      "capitalization": "3",
+      "align": 2
+    },
+    "CARBON": {
+      "font": "calibrib.ttf",
+      "font_size": 66,
+      "position": [746, 672],
+      "font_path": "static/fonts/calibrib.ttf",
+      "font_color": "#000000",
+      "points": "6",
+      "capitalization": "2",
+      "align": 1
+    },
+    "COORDINATOR TERANIS 24": {
+      "font": "Times New Roman Bold.ttf",
+      "font_size": 53,
+      "position": [1198, 675],
+      "font_path": "static/fonts/Times New Roman Bold.ttf",
+      "font_color": "#000000",
+      "points": "10",
+      "capitalization": "3",
+      "align": 2
+    }
+  },
+  "4_year": {
+    "INTERNSHIP IEEE ": {
+      "font": "Liberty Script.ttf",
+      "font_size": 100,
+      "position": [530, 670],
+      "font_path": "static/fonts/Liberty Script.ttf",
+      "font_color": "#023066",
+      "points": "20",
+      "capitalization": "2",
+      "align": 1
+    },
+    "WORKSHOP AI FOR STUDENTS": {
+      "font": "Arial Bold.ttf",
+      "font_size": 61,
+      "position": [916, 708],
+      "font_path": "static/fonts/Arial Bold.ttf",
+      "font_color": "#000000",
+      "points": "6",
+      "capitalization": "2",
+      "align": 1
+    }
+  }
 }

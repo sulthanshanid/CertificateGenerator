@@ -48,6 +48,27 @@ def admin_panel():
     log_data = load_log_data()
     return render_template('admin.html', templates=config, logs=log_data, yconfig=config)
 
+from PIL import Image, ImageDraw, ImageFont
+import os
+import zipfile
+from datetime import datetime
+from flask import request, send_file
+
+from PIL import Image, ImageDraw, ImageFont
+import os
+import zipfile
+from datetime import datetime
+from flask import request, send_file
+
+def apply_capitalization(name, capitalization_style):
+    if capitalization_style == '1':
+        return name.lower()  # Full small
+    elif capitalization_style == '2':
+        return name.title()  # Word Capitalized
+    elif capitalization_style == '3':
+        return name.upper()  # Full Capitalized
+    return name  # Do nothing
+
 @app.route('/generate', methods=['POST'])
 def generate_certificate():
     name = request.form['name']
@@ -68,9 +89,15 @@ def generate_certificate():
         if not template_config:
             return "Invalid Template"
 
+        # Get the capitalization style from the template config
+        capitalization_style = template_config.get('capitalization', '4')  # Default to 'Do Nothing'
+
+        # Apply the capitalization style to the name
+        formatted_name = apply_capitalization(name, capitalization_style)
+
         # Log the certificate generation
         log_data.append({
-            "name": name,
+            "name": formatted_name,
             "template": template_name,
             "year": year_category,
             "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -82,14 +109,31 @@ def generate_certificate():
         font_size = template_config['font_size']
         position = tuple(template_config['position'])
         font_color = template_config.get('font_color', 'black')
+        align_value = template_config.get('align', 1)  # Default to 1 (auto-align)
 
         template = Image.open(template_path)
         draw = ImageDraw.Draw(template)
         font = ImageFont.truetype(font_path, font_size)
 
-        draw.text(position, name, font=font, fill=font_color)
+        # Get the size of the name text
+        text_width, text_height = draw.textsize(formatted_name, font=font)
 
-        output_path = os.path.join(app.config['OUTPUT_FOLDER'], f"{name}_{template_name}_certificate.png")
+        # Check alignment logic
+        if align_value == 1:
+            print("1",template_name)
+            # Auto align: Center the text horizontally and use y coordinate from config
+            x = (template.width - text_width) // 2  # Center the text
+            y = position[1]  # Use the y-coordinate from template config
+        elif align_value == 2:
+            print("2",template_name)
+            # Do not align: Use the x and y coordinates directly from template config
+            x, y = position
+
+        # Draw the name on the template
+        draw.text((x, y), formatted_name, font=font, fill=font_color)
+
+        # Save the generated certificate
+        output_path = os.path.join(app.config['OUTPUT_FOLDER'], f"{formatted_name}_{template_name}_certificate.png")
         template.save(output_path)
         output_files.append(output_path)
 
@@ -97,15 +141,13 @@ def generate_certificate():
     save_log_data(log_data)
 
     # Create a ZIP file of all generated certificates
-    zip_path = os.path.join(app.config['OUTPUT_FOLDER'], f"{name}_certificates.zip")
+    zip_path = os.path.join(app.config['OUTPUT_FOLDER'], f"{formatted_name}_certificates.zip")
     with zipfile.ZipFile(zip_path, 'w') as zipf:
         for file in output_files:
             zipf.write(file, os.path.basename(file))
 
     # Return the ZIP file to the user
     return send_file(zip_path, as_attachment=True)
-
-# Function to load log data (from a file or a database)
 
 
 # Function to load log data (from a file or a database)
@@ -130,7 +172,9 @@ def upload_template():
     font_file = request.files['font']
     font_size = int(request.form['font_size'])
     year = request.form['category'] 
-    points = request.form['points']  # New field for year/category
+    points = request.form['points']
+    capitalization = request.form['capitalization']
+    align = request.form['align']   # New field for year/category
 
     # Save template image
     template_path = os.path.join(app.config['UPLOAD_FOLDER'], f"{template_name}.png")
@@ -153,7 +197,9 @@ def upload_template():
         "position": [0, 0],
         "font_path": font_path,
         "font_color": "#000000",  # Default color (black)
-        "points": points
+        "points": points,
+        "capitalization":capitalization,
+        "align":align
     }
     save_config(config)
     
