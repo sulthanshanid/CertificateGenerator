@@ -7,216 +7,272 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-gray-50 font-sans text-gray-800">
-    <div class="container mx-auto p-6">
+    <div class="container mx-auto p-6 max-w-screen-sm">
       <h1 class="text-4xl font-semibold text-center text-indigo-600 mb-6">
         Generate Certificate
       </h1>
 
-      <!-- Certificate Generation Form -->
-      <form
-        action="/generate"
-        method="POST"
-        id="certificate-form"
-        class="space-y-6 bg-white p-6 rounded-lg shadow-lg"
-      >
-        <div class="space-y-4">
-          <div class="flex flex-col">
-            <label for="name" class="font-medium text-gray-700"
-              >Your Name</label
-            >
-            <input
-              type="text"
-              name="name"
-              id="name"
-              placeholder="Enter your name"
-              required
-              class="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
-
-          <div class="flex flex-col">
-            <label for="year" class="font-medium text-gray-700"
-              >Select Year</label
-            >
-            <select
-              name="year"
-              id="year"
-              required
-              class="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-              <option value="1">1st Year</option>
-              <option value="2">2nd Year</option>
-              <option value="3">3rd Year</option>
-              <option value="4">4th Year</option>
-            </select>
-          </div>
-
-          <div class="flex flex-col">
-            <label for="template" class="font-medium text-gray-700"
-              >Select Template(s)</label
-            >
-            <div id="template-checkboxes" class="space-y-2">
-              <!-- Checkboxes will be populated based on selected year -->
-            </div>
-          </div>
-
-          <!-- Display Total Points -->
-          <div class="flex flex-col">
-            <label class="font-medium text-gray-700">Total Points</label>
-            <input
-              type="text"
-              id="total-points"
-              value="0"
-              disabled
-              class="p-3 border border-gray-300 rounded-md bg-gray-100"
-            />
-          </div>
-
-          <!-- Generate Button -->
-          <button
-            type="submit"
-            class="w-full py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
-          >
-            Generate Certificates
-          </button>
-        </div>
-      </form>
-
-      <!-- Loader Spinner -->
-      <div
-        id="loading-spinner"
-        class="hidden flex justify-center items-center space-x-2"
-      >
-        <div
-          class="w-8 h-8 border-4 border-t-4 border-indigo-600 rounded-full animate-spin"
-        ></div>
-        <span class="text-indigo-600 font-semibold">Generating...</span>
+      <!-- Name Input -->
+      <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+        <label for="name" class="block text-gray-700 font-medium mb-2"
+          >Your Name</label
+        >
+        <input
+          type="text"
+          id="name"
+          class="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full"
+          placeholder="Enter your name"
+        />
       </div>
 
-      <!-- Display Generated Files -->
-      <div id="generated-files" class="mt-8 space-y-4">
-        <!-- Links to generated files will be shown here -->
+      <!-- Table for Selected Certificates -->
+      <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+        <h2 class="text-2xl font-semibold text-indigo-600 mb-4">
+          Selected Certificates
+        </h2>
+        <table class="min-w-full border-collapse table-auto">
+          <thead>
+            <tr class="bg-indigo-600 text-white">
+              <th class="px-4 py-2">Certificate Name</th>
+              <th class="px-4 py-2">Points</th>
+              <th class="px-4 py-2">Remove</th>
+            </tr>
+          </thead>
+          <tbody id="selected-certificates-body">
+            <!-- Selected certificates will be listed here -->
+          </tbody>
+        </table>
+        <!-- Total Points Display -->
+        <div class="mt-4">
+          <strong class="text-lg">Total Points: </strong>
+          <span id="total-points">0</span>
+        </div>
+      </div>
+
+      <!-- Select Year and Certificates -->
+      <div class="space-y-4 bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-semibold text-indigo-600 mb-4">Select Year</h2>
+
+        <!-- Year Selection Dropdown -->
+        <select
+          id="year-select"
+          class="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full"
+        >
+          <option value="1">1st Year</option>
+          <option value="2">2nd Year</option>
+          <option value="3">3rd Year</option>
+          <option value="4">4th Year</option>
+        </select>
+
+        <h2 class="text-2xl font-semibold text-indigo-600 mt-4 mb-4">
+          Select Certificates
+        </h2>
+
+        <!-- Certificates Table by Year -->
+        <div id="certificate-table" class="space-y-4">
+          <!-- Templates will be dynamically populated here -->
+        </div>
+      </div>
+
+      <!-- Loading Spinner -->
+      <div id="loading" class="hidden text-center mb-4">
+        <svg
+          role="status"
+          class="inline w-8 h-8 text-indigo-600 animate-spin dark:text-indigo-500 fill-white"
+          viewBox="0 0 100 101"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M100 50.6c0-27.7-22.5-50.6-50.6-50.6S-1.2 22.9-1.2 50.6 22.5 101 50.6 101c15.6 0 29.5-6.3 40.4-16.6l9.4 7.2c-13.4 16.7-33.8 27.7-55.8 27.7C22.5 101 0 78.5 0 50.6 0 22.9 22.5 0 50.6 0c14.6 0 27.8 5.9 37.4 15.5L100 0v50.6z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+
+      <!-- Generate Button -->
+      <div class="mt-6">
+        <button
+          type="submit"
+          id="generate-btn"
+          class="w-full py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+        >
+          Generate Certificates
+        </button>
       </div>
     </div>
 
     <script>
-      // Update templates dynamically based on year selection
-      document.getElementById("year").addEventListener("change", function () {
-        const year = this.value;
-        const templateCheckboxesContainer = document.getElementById(
-          "template-checkboxes"
-        );
+      let totalPoints = 0; // Keep track of total points
+      let selectedTemplates = []; // Array to store selected templates
 
-        // Clear previous checkboxes
-        templateCheckboxesContainer.innerHTML = "";
+      // Fetch templates by year
+      function fetchTemplates(year) {
+        const certificateTableContainer =
+          document.getElementById("certificate-table");
+        certificateTableContainer.innerHTML = ""; // Clear previous templates
 
-        // Fetch templates for the selected year
         fetch(`/get-templates/${year}`)
           .then((response) => response.json())
           .then((data) => {
             if (data.templates.length > 0) {
-              // Populate checkboxes for templates
               data.templates.forEach((template) => {
-                const checkboxWrapper = document.createElement("div");
-                checkboxWrapper.classList.add(
+                const templateRow = document.createElement("div");
+                templateRow.classList.add(
                   "flex",
                   "items-center",
-                  "space-x-2"
+                  "space-x-4",
+                  "p-2",
+                  "border-b"
                 );
 
                 const checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
                 checkbox.value = template.name;
-                checkbox.classList.add("template-checkbox");
                 checkbox.dataset.points = template.points;
+                checkbox.classList.add("template-checkbox", "h-4", "w-4");
 
                 const label = document.createElement("label");
                 label.textContent = `${template.name} (${template.points} points)`;
 
-                checkboxWrapper.appendChild(checkbox);
-                checkboxWrapper.appendChild(label);
+                templateRow.appendChild(checkbox);
+                templateRow.appendChild(label);
+                certificateTableContainer.appendChild(templateRow);
 
-                templateCheckboxesContainer.appendChild(checkboxWrapper);
+                // Handle checkbox change
+                checkbox.addEventListener("change", function () {
+                  if (checkbox.checked) {
+                    addCertificateToTable(template);
+                  } else {
+                    removeCertificateFromTable(template);
+                  }
+                });
               });
             } else {
               const noTemplateMessage = document.createElement("p");
               noTemplateMessage.textContent =
                 "No templates available for this year.";
-              templateCheckboxesContainer.appendChild(noTemplateMessage);
+              certificateTableContainer.appendChild(noTemplateMessage);
             }
           });
-      });
+      }
 
-      // Calculate total points when templates are selected
+      // Add selected certificate to the selected certificates table
+      function addCertificateToTable(template) {
+        // Prevent duplicate entries
+        if (selectedTemplates.some((t) => t.name === template.name)) return;
+
+        const selectedTableBody = document.getElementById(
+          "selected-certificates-body"
+        );
+        const row = document.createElement("tr");
+        row.classList.add("border-b");
+
+        const nameCell = document.createElement("td");
+        nameCell.classList.add("px-4", "py-2");
+        nameCell.textContent = template.name;
+
+        const pointsCell = document.createElement("td");
+        pointsCell.classList.add("px-4", "py-2");
+        pointsCell.textContent = template.points;
+
+        const removeCell = document.createElement("td");
+        removeCell.classList.add("px-4", "py-2");
+
+        const removeBtn = document.createElement("button");
+        removeBtn.classList.add(
+          "bg-red-600",
+          "text-white",
+          "px-2",
+          "py-1",
+          "rounded"
+        );
+        removeBtn.textContent = "Remove";
+        removeBtn.onclick = () => removeCertificateFromTable(template, row);
+
+        removeCell.appendChild(removeBtn);
+        row.appendChild(nameCell);
+        row.appendChild(pointsCell);
+        row.appendChild(removeCell);
+        selectedTableBody.appendChild(row);
+
+        // Update total points
+        totalPoints += parseInt(template.points);
+        document.getElementById("total-points").textContent = totalPoints;
+
+        // Add template to selectedTemplates array
+        selectedTemplates.push(template);
+      }
+
+      // Remove selected certificate from the table and update total points
+      function removeCertificateFromTable(template, row = null) {
+        const selectedTableBody = document.getElementById(
+          "selected-certificates-body"
+        );
+        if (row) {
+          selectedTableBody.removeChild(row);
+        }
+
+        // Update total points
+        totalPoints -= parseInt(template.points);
+        document.getElementById("total-points").textContent = totalPoints;
+
+        // Remove from selectedTemplates array
+        selectedTemplates = selectedTemplates.filter(
+          (selectedTemplate) => selectedTemplate.name !== template.name
+        );
+      }
+
+      // Fetch templates for the selected year when the year dropdown is changed
       document
-        .getElementById("certificate-form")
-        .addEventListener("submit", function (event) {
-          event.preventDefault();
+        .getElementById("year-select")
+        .addEventListener("change", function () {
+          const selectedYear = this.value;
+          fetchTemplates(selectedYear);
+        });
 
-          // Show loader spinner
-          document.getElementById("loading-spinner").classList.remove("hidden");
+      // Initialize with fetching templates for the first year
+      fetchTemplates("1");
 
-          // Calculate total points based on selected checkboxes
-          let totalPoints = 0;
-          const selectedCheckboxes = document.querySelectorAll(
-            ".template-checkbox:checked"
-          );
+      // Submit the form to generate the certificates
+      document
+        .getElementById("generate-btn")
+        .addEventListener("click", function () {
+          const name = document.getElementById("name").value;
 
-          selectedCheckboxes.forEach((checkbox) => {
-            const points = parseInt(checkbox.dataset.points);
-            totalPoints += points;
+          if (!name) {
+            alert("Please enter your name!");
+            return;
+          }
+
+          // Show loading spinner
+          document.getElementById("loading").classList.remove("hidden");
+
+          // Prepare the data to send
+          const formData = new FormData();
+          formData.append("name", name); // Add name
+          selectedTemplates.forEach((template) => {
+            formData.append("template", template.name); // Add selected templates
           });
 
-          // Update total points display
-          document.getElementById("total-points").value = totalPoints;
-
-          // Get the selected template names
-          const selectedTemplates = Array.from(selectedCheckboxes).map(
-            (checkbox) => checkbox.value
-          );
-
-          // Create FormData to send selected templates to the backend
-          const formData = new FormData(this);
-          selectedTemplates.forEach((template) =>
-            formData.append("template", template)
-          );
-
+          // Send the data to the backend
           fetch("/generate", {
             method: "POST",
             body: formData,
           })
-            .then((response) => {
-              if (response.ok) {
-                // Trigger the download of the ZIP file
-                return response.blob();
-              }
-              throw new Error("Failed to generate certificates.");
-            })
+            .then((response) => response.blob())
             .then((blob) => {
-              // Hide loader spinner
-              document
-                .getElementById("loading-spinner")
-                .classList.add("hidden");
-
-              // Trigger file download
+              // Hide loading spinner and trigger download
+              document.getElementById("loading").classList.add("hidden");
               const url = window.URL.createObjectURL(blob);
               const a = document.createElement("a");
               a.href = url;
               a.download = "certificates.zip";
               a.click();
-
-              // Display "Download Started" message
-              const generatedFilesDiv =
-                document.getElementById("generated-files");
-              generatedFilesDiv.innerHTML = `<p class="text-indigo-600 font-semibold">Download Started...</p>`;
             })
             .catch((error) => {
-              // Hide loader spinner
-              document
-                .getElementById("loading-spinner")
-                .classList.add("hidden");
-
-              alert("An error occurred: " + error.message);
+              // Hide loading spinner and show error message
+              document.getElementById("loading").classList.add("hidden");
+              alert("Error generating certificates: " + error.message);
             });
         });
     </script>

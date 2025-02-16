@@ -72,11 +72,15 @@ def apply_capitalization(name, capitalization_style):
 @app.route('/generate', methods=['POST'])
 def generate_certificate():
     name = request.form['name']
-    year = request.form['year']
-    selected_templates = request.form.getlist('template')  # For multiple selections
+    selected_templates = request.form.getlist('template')  # Get the list of selected templates
 
-    config = load_config()
-    year_category = f"{year}_year"
+    if not name:
+        return "Name is required", 400
+
+    if not selected_templates:
+        return "At least one template must be selected", 400
+
+    config = load_config()  # Get the configuration with templates
     output_files = []
 
     # Load the existing log data
@@ -84,10 +88,15 @@ def generate_certificate():
 
     # Process each selected template
     for template_name in selected_templates:
-        template_config = config.get(year_category, {}).get(template_name)
+        # Search for the template across all years in the config
+        template_config = None
+        for year_category in config.values():  # Iterate over all year categories in the config
+            if template_name in year_category:
+                template_config = year_category.get(template_name)
+                break
 
         if not template_config:
-            return "Invalid Template"
+            return f"Invalid Template: {template_name}", 400
 
         # Get the capitalization style from the template config
         capitalization_style = template_config.get('capitalization', '4')  # Default to 'Do Nothing'
@@ -99,7 +108,6 @@ def generate_certificate():
         log_data.append({
             "name": formatted_name,
             "template": template_name,
-            "year": year_category,
             "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         })
 
@@ -120,12 +128,10 @@ def generate_certificate():
 
         # Check alignment logic
         if align_value == 1:
-            print("1",template_name)
             # Auto align: Center the text horizontally and use y coordinate from config
             x = (template.width - text_width) // 2  # Center the text
             y = position[1]  # Use the y-coordinate from template config
         elif align_value == 2:
-            print("2",template_name)
             # Do not align: Use the x and y coordinates directly from template config
             x, y = position
 
