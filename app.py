@@ -42,7 +42,7 @@ def index():
     config = load_config()
     return render_template('index.html', templates=config)
 
-@app.route('/adminnotdefined')
+@app.route('/notadmin')
 def admin_panel():
     config = load_config()
     log_data = load_log_data()
