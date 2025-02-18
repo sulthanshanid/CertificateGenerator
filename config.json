@@ -172,6 +172,45 @@
             "points": "10",
             "capitalization": "3",
             "align": 2
+        },
+        "DIJILI": {
+            "font": "Times New Roman Bold.ttf",
+            "font_size": 30,
+            "position": [
+                471,
+                459
+            ],
+            "font_path": "static/fonts/Times New Roman Bold.ttf",
+            "font_color": "#000000",
+            "points": "10",
+            "capitalization": "3",
+            "align": 2
+        },
+        "INTERNSHIP REVERTECH": {
+            "font": "calibrib.ttf",
+            "font_size": 80,
+            "position": [
+                698,
+                800
+            ],
+            "font_path": "static/fonts/calibrib.ttf",
+            "font_color": "#000000",
+            "points": "10",
+            "capitalization": "3",
+            "align": 1
+        },
+        "EDUREKA INTERSHIP": {
+            "font": "IBMPlexSans-Bold.ttf",
+            "font_size": 80,
+            "position": [
+                802,
+                667
+            ],
+            "font_path": "static/fonts/IBMPlexSans-Bold.ttf",
+            "font_color": "#0052cd",
+            "points": "10",
+            "capitalization": "2",
+            "align": 1
         }
     },
     "4_year": {
