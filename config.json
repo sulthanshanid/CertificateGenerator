@@ -214,19 +214,6 @@
         }
     },
     "4_year": {
-        "INTERNSHIP IEEE ": {
-            "font": "t.ttf",
-            "font_size": 140,
-            "position": [
-                530,
-                670
-            ],
-            "font_path": "static/fonts/t.ttf",
-            "font_color": "#023066",
-            "points": "20",
-            "capitalization": "2",
-            "align": 1
-        },
         "WORKSHOP AI FOR STUDENTS": {
             "font": "Arial Bold.ttf",
             "font_size": 61,
@@ -240,18 +227,70 @@
             "capitalization": "2",
             "align": 1
         },
-        "IEEE evolve": {
-            "font": "t.ttf",
-            "font_size": 140,
+        "IEEE CODE IGNITE": {
+            "font": "LibertyScript1.ttf",
+            "font_size": 152,
             "position": [
-                792,
+                713,
                 673
             ],
-            "font_path": "static/fonts/t.ttf",
-            "font_color": "#f8a419",
+            "font_path": "static/fonts/LibertyScript1.ttf",
+            "font_color": "#002c64",
             "points": "10",
             "capitalization": "2",
             "align": 1
+        },
+        "IEEE evolve": {
+            "font": "LibertyScript1.ttf",
+            "font_size": 150,
+            "position": [
+                742,
+                665
+            ],
+            "font_path": "static/fonts/LibertyScript1.ttf",
+            "font_color": "#f3a31b",
+            "points": "10",
+            "capitalization": "2",
+            "align": 1
+        },
+        "Workshop fullstack Qnayds": {
+            "font": "SourceSans3-Bold.ttf",
+            "font_size": 168,
+            "position": [
+                163,
+                616
+            ],
+            "font_path": "static/fonts/SourceSans3-Bold.ttf",
+            "font_color": "#006b6e",
+            "points": "10",
+            "capitalization": "2",
+            "align": 2
+        },
+        "Workshop Web Qnayds": {
+            "font": "SourceSans3-Bold.ttf",
+            "font_size": 168,
+            "position": [
+                174,
+                606
+            ],
+            "font_path": "static/fonts/SourceSans3-Bold.ttf",
+            "font_color": "#006e72",
+            "points": "10",
+            "capitalization": "2",
+            "align": 2
+        },
+        "Workshop Full Qnaydns": {
+            "font": "SourceSans3-Bold.ttf",
+            "font_size": 169,
+            "position": [
+                167,
+                615
+            ],
+            "font_path": "static/fonts/SourceSans3-Bold.ttf",
+            "font_color": "#287477",
+            "points": "10",
+            "capitalization": "2",
+            "align": 2
         }
     }
 }
