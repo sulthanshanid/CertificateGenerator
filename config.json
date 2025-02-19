@@ -227,32 +227,6 @@
             "capitalization": "2",
             "align": 1
         },
-        "IEEE CODE IGNITE": {
-            "font": "LibertyScript1.ttf",
-            "font_size": 152,
-            "position": [
-                713,
-                673
-            ],
-            "font_path": "static/fonts/LibertyScript1.ttf",
-            "font_color": "#002c64",
-            "points": "10",
-            "capitalization": "2",
-            "align": 1
-        },
-        "IEEE evolve": {
-            "font": "LibertyScript1.ttf",
-            "font_size": 150,
-            "position": [
-                742,
-                665
-            ],
-            "font_path": "static/fonts/LibertyScript1.ttf",
-            "font_color": "#f3a31b",
-            "points": "10",
-            "capitalization": "2",
-            "align": 1
-        },
         "Workshop fullstack Qnayds": {
             "font": "SourceSans3-Bold.ttf",
             "font_size": 168,
